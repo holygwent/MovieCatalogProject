@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MovieCatalogProject.Domain.Common;
 using MovieCatalogProject.Domain.Entities;
+using MovieCatalogProject.Infrastructure.Middleware;
 using MovieCatalogProject.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace MovieCatalogProject.Infrastructure
         {
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped(typeof(IGenericRepository<Movie>), typeof(GenericRepository<Movie>));
+            services.AddScoped<ErrorHandlingMiddleware>();
         }
         
     }
