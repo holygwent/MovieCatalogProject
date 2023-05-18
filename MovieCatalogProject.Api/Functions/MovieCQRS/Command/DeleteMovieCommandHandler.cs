@@ -2,6 +2,7 @@
 using MediatR;
 using MovieCatalogProject.Domain.Common;
 using MovieCatalogProject.Domain.Entities;
+using MovieCatalogProject.Infrastructure.Exceptions;
 
 namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
 {
@@ -17,16 +18,10 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
 
         public async Task Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
+            
                 _movieRepository.Delete(request.id);
               
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            
         }
     }
 }
