@@ -1,5 +1,6 @@
 using MediatR;
 using MovieCatalogProject.Infrastructure;
+using MovieCatalogProject.Infrastructure.Middleware;
 using NLog.Web;
 using System.Reflection;
 
@@ -15,14 +16,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Host.UseNLog();
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
