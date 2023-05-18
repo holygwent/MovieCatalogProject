@@ -32,16 +32,16 @@ namespace MovieCatalogProject.Infrastructure.Repositories
 
         }
 
-        public async Task<List<T>> GetAllAsync()
-        {
-            return await _entities.ToListAsync();
-        }
+        //public async Task<List<T>> GetAllAsync()
+        //{
+        //    return await _entities.ToListAsync();
+        //}
 
         public async Task<T> GetByIdAsync(object id)
         {
             var entity = await _entities.FindAsync(id);
             if (entity == null)
-                throw new NullReferenceException();
+                throw new NullReferenceException($"there is no movie with Id:{id}");
             return entity;
         }
 
@@ -50,12 +50,12 @@ namespace MovieCatalogProject.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public void Update(T entity)
-        {
-            EntityEntry entityEntry = _context.Entry<T>(entity);
-            entityEntry.State = EntityState.Modified;
-            SaveChangesAsync().Wait();
+        //public void Update(T entity)
+        //{
+        //    EntityEntry entityEntry = _context.Entry<T>(entity);
+        //    entityEntry.State = EntityState.Modified;
+        //    SaveChangesAsync().Wait();
 
-        }
+        //}
     }
 }
