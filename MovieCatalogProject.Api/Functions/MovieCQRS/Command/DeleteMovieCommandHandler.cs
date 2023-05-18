@@ -19,10 +19,8 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
         {
             try
             {
-                var movie = await _movieRepository.GetByIdAsync(request.id);
-                if (movie == null)
-                    throw new NullReferenceException($"there is no movie with id {request.id}");
-                _movieRepository.Delete(movie);
+                _movieRepository.Delete(request.id);
+              
             }
             catch (Exception)
             {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using MovieCatalogProject.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,29 @@ namespace MovieCatalogProject.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<T> _entities;
-        public GenericRepository(ApplicationDbContext context)
+        private readonly ILogger<GenericRepository<T>> _logger;
+
+        public GenericRepository(ApplicationDbContext context,ILogger<GenericRepository<T>> logger)
         {
             _context = context;
             _entities = _context.Set<T>();
+            _logger = logger;
         }
         public async Task AddAsync(T entity)
         {
+            
             await _entities.AddAsync(entity);
             SaveChangesAsync().Wait();
         }
 
-        public void Delete(T entity)
+        public void Delete(object id)
         {
+           
+            var entity =  GetByIdAsync(id).Result;
+            if (entity == null)
+                throw new NullReferenceException($"there is no entity with id {id}");
+
+            _logger.LogWarning($"Entity with id:{id} DELETE action invoke");
             EntityEntry entityEntry = _context.Entry<T>(entity);
             entityEntry.State = EntityState.Deleted;
             SaveChangesAsync().Wait();
