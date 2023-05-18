@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 using MovieCatalogProject.Domain.Common;
+using MovieCatalogProject.Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace MovieCatalogProject.Infrastructure.Repositories
         private readonly DbSet<T> _entities;
         private readonly ILogger<GenericRepository<T>> _logger;
 
-        public GenericRepository(ApplicationDbContext context,ILogger<GenericRepository<T>> logger)
+        public GenericRepository(ApplicationDbContext context, ILogger<GenericRepository<T>> logger)
         {
             _context = context;
             _entities = _context.Set<T>();
@@ -24,17 +25,17 @@ namespace MovieCatalogProject.Infrastructure.Repositories
         }
         public async Task AddAsync(T entity)
         {
-            
+
             await _entities.AddAsync(entity);
             SaveChangesAsync().Wait();
         }
 
         public void Delete(object id)
         {
-           
-            var entity =  GetByIdAsync(id).Result;
+
+            var entity = GetByIdAsync(id).Result;
             if (entity == null)
-                throw new NullReferenceException($"there is no entity with id {id}");
+                throw new NotFoundException($"there is no entity with id {id}");
 
             _logger.LogWarning($"Entity with id:{id} DELETE action invoke");
             EntityEntry entityEntry = _context.Entry<T>(entity);
@@ -51,8 +52,6 @@ namespace MovieCatalogProject.Infrastructure.Repositories
         public async Task<T> GetByIdAsync(object id)
         {
             var entity = await _entities.FindAsync(id);
-            if (entity == null)
-                throw new NullReferenceException($"there is no movie with Id:{id}");
             return entity;
         }
 
