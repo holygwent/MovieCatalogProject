@@ -23,17 +23,10 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
 
         public async Task Handle(AddMovieCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
+
                 var movie = _mapper.Map<Movie>(request);
                 await _movieRepository.AddAsync(movie);
                 _logger.LogWarning($"Entity with id:{movie.Id} INSERT action invoke");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
     }
 
