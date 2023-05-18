@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieCatalogProject.Domain.Common;
 using MovieCatalogProject.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MovieCatalogProject.Infrastructure
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<Movie> Movies { get; set; }
 
@@ -16,6 +17,16 @@ namespace MovieCatalogProject.Infrastructure
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseInMemoryDatabase(databaseName: "MovieCatalogProjectDatabase");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder
+                .Entity<Movie>()
+                .Property(e => e.Genres)
+                .HasConversion(
+                   v => string.Join(',', v),
+                   v => v.Split(',',StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

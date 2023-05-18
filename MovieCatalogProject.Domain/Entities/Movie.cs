@@ -12,6 +12,6 @@ namespace MovieCatalogProject.Domain.Entities
         public Guid Id { get; set; }
         public string Name { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public Genres[] Genres { get; set; }
+        public string[] Genres { get; set; }
     }
 }
