@@ -18,11 +18,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Host.UseNLog();
 //validation
 builder.Services.AddScoped<IValidator<AddMovieCommand>, AddMovieCommandValidator>();
-builder.Host.UseNLog();
+
 var app = builder.Build();
-// Configure the HTTP request pipeline.
+app.UseHttpLogging();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

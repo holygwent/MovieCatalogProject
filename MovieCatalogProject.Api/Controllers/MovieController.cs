@@ -31,7 +31,7 @@ namespace MovieCatalogProject.Api.Controllers
             return StatusCode(200, result);
         }
 
-        [HttpGet("movies/year/{year}")]
+        [HttpGet("movie/year/{year}")]
         public async Task<ActionResult> GetMoviesByYear([FromRoute] int year)
         {
             
@@ -39,7 +39,7 @@ namespace MovieCatalogProject.Api.Controllers
             return StatusCode(200, result);
         }
 
-        [HttpGet("movies/genre/{genre}")]
+        [HttpGet("movie/genre/{genre}")]
         public async Task<ActionResult> GetMoviesByGenre([FromRoute] string genre)
         {
             var result = await _mediator.Send(new GetMoviesByGenreQuery(genre));
