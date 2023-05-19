@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieCatalogProject.Api.Functions.MovieCQRS.Command;
+using MovieCatalogProject.Api.Functions.MovieCQRS.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,6 +17,13 @@ namespace MovieCatalogProject.Api.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> RetriveLastMovie()
+        {
+            var result = await _mediator.Send(new RetriveLastMovieQuery());
+            return StatusCode(200, result);
+
+        }
         // POST api/<MovieController>
         [HttpPost]
         public async Task<ActionResult> AddMovie([FromBody] AddMovieCommand dto)

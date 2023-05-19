@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MovieCatalogProject.Api.Functions.MovieCQRS.Command;
+using MovieCatalogProject.Api.Functions.MovieCQRS.Query;
 using MovieCatalogProject.Domain.Entities;
 
 namespace MovieCatalogProject.Api
@@ -10,6 +11,7 @@ namespace MovieCatalogProject.Api
         {
             CreateMap<AddMovieCommand,Movie>()
                 .ForMember(m=>m.Id,c=>c.AllowNull());
+            CreateMap<Movie, RetriveLastMovieQueryResponse>();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MovieCatalogProject.Domain.Common
 {
     public interface IGenericRepository<T> where T : class
     {
-        // Task<List<T>> GetAllAsync();
+        Task<List<T>> GetAllAsync();
         Task<T> GetByIdAsync(object id);
         Task AddAsync(T entity);
         // void Update(T entity);

@@ -44,10 +44,10 @@ namespace MovieCatalogProject.Infrastructure.Repositories
 
         }
 
-        //public async Task<List<T>> GetAllAsync()
-        //{
-        //    return await _entities.ToListAsync();
-        //}
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await _entities.ToListAsync();
+        }
 
         public async Task<T> GetByIdAsync(object id)
         {

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\MovieCatalogProject.Domain\MovieCatalogProject.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
