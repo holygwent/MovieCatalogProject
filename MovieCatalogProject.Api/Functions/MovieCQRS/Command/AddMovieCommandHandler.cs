@@ -7,7 +7,7 @@ using MovieCatalogProject.Infrastructure.Repositories;
 
 namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
 {
-    public record AddMovieCommand(string Name, DateTime ReleaseDate, string[] Genres) : IRequest;
+    public record AddMovieCommand(string name, DateTime releaseDate, string[] genres) : IRequest;
     public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
     {
         private readonly IMapper _mapper;
