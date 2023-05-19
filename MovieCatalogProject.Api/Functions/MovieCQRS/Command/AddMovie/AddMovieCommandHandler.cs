@@ -5,7 +5,7 @@ using MovieCatalogProject.Domain.Common;
 using MovieCatalogProject.Domain.Entities;
 using MovieCatalogProject.Infrastructure.Repositories;
 
-namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
+namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command.AddMovie
 {
     public record AddMovieCommand(string name, DateTime releaseDate, string[] genres) : IRequest;
     public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
@@ -24,9 +24,9 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
         public async Task Handle(AddMovieCommand request, CancellationToken cancellationToken)
         {
 
-                var movie = _mapper.Map<Movie>(request);
-                await _movieRepository.AddAsync(movie);
-                _logger.LogWarning($"Entity with id:{movie.Id} INSERT action invoke");
+            var movie = _mapper.Map<Movie>(request);
+            await _movieRepository.AddAsync(movie);
+            _logger.LogWarning($"Entity with id:{movie.Id} INSERT action invoke");
         }
     }
 

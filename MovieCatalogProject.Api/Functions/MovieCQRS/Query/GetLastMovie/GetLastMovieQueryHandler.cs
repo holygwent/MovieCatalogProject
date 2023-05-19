@@ -4,7 +4,7 @@ using MovieCatalogProject.Domain.Common;
 using MovieCatalogProject.Domain.Entities;
 using MovieCatalogProject.Infrastructure.Exceptions;
 
-namespace MovieCatalogProject.Api.Functions.MovieCQRS.Query
+namespace MovieCatalogProject.Api.Functions.MovieCQRS.Query.GetLastMovie
 {
     public record GetLastMovieQuery() : IRequest<GetLastMovieQueryResponse>;
 
@@ -19,7 +19,8 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Query
         }
         public async Task<GetLastMovieQueryResponse> Handle(GetLastMovieQuery request, CancellationToken cancellationToken)
         {
-            var lastMovie = _movieRepository.GetAllAsync().Result.LastOrDefault();
+            var movies = await _movieRepository.GetAllAsync();
+            var lastMovie = movies.LastOrDefault();
             if (lastMovie is null)
                 throw new NotFoundException("There is no movies in catalog");
             var response = _mapper.Map<GetLastMovieQueryResponse>(lastMovie);

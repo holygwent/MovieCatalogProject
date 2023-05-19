@@ -2,9 +2,9 @@
 using MovieCatalogProject.Domain.Common;
 using MovieCatalogProject.Domain.Entities;
 
-namespace MovieCatalogProject.Api.Functions.MovieCQRS.Query
+namespace MovieCatalogProject.Api.Functions.MovieCQRS.Query.GetMoviesByYear
 {
-    public record GetMoviesByYearQuery(int year):IRequest<GetMoviesByYearQueryResponse>;
+    public record GetMoviesByYearQuery(int year) : IRequest<GetMoviesByYearQueryResponse>;
     public class GetMoviesByYearQueryHandler : IRequestHandler<GetMoviesByYearQuery, GetMoviesByYearQueryResponse>
     {
         private readonly IGenericRepository<Movie> _movieRepository;
@@ -14,8 +14,9 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Query
         }
         public async Task<GetMoviesByYearQueryResponse> Handle(GetMoviesByYearQuery request, CancellationToken cancellationToken)
         {
-            var movies = _movieRepository.GetAllAsync().Result.Where(x => x.ReleaseDate.Year == request.year).ToList();
-            return new GetMoviesByYearQueryResponse(movies);
+            var movies = await _movieRepository.GetAllAsync();
+            var result = movies.Where(x => x.ReleaseDate.Year == request.year).ToList();
+            return new GetMoviesByYearQueryResponse(result);
         }
     }
     public record GetMoviesByYearQueryResponse(List<Movie> Movies);

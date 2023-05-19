@@ -1,7 +1,11 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediatR;
+using MovieCatalogProject.Api.Functions.MovieCQRS.Command.AddMovie;
 using MovieCatalogProject.Infrastructure;
 using MovieCatalogProject.Infrastructure.Middleware;
 using NLog.Web;
+using System;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +18,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//validation
+builder.Services.AddScoped<IValidator<AddMovieCommand>, AddMovieCommandValidator>();
 builder.Host.UseNLog();
 var app = builder.Build();
 // Configure the HTTP request pipeline.

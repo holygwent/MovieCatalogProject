@@ -4,7 +4,7 @@ using MovieCatalogProject.Domain.Common;
 using MovieCatalogProject.Domain.Entities;
 using MovieCatalogProject.Infrastructure.Exceptions;
 
-namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
+namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command.DeleteMovie
 {
     public record DeleteMovieCommand(Guid id) : IRequest;
     public class DeleteMovieCommandHandler : IRequestHandler<DeleteMovieCommand>
@@ -18,10 +18,10 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Command
 
         public async Task Handle(DeleteMovieCommand request, CancellationToken cancellationToken)
         {
-            
-                _movieRepository.Delete(request.id);
-              
-            
+
+            _movieRepository.Delete(request.id);
+
+
         }
     }
 }

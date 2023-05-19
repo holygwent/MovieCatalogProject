@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using MovieCatalogProject.Api.Functions.MovieCQRS.Command;
-using MovieCatalogProject.Api.Functions.MovieCQRS.Query;
+using MovieCatalogProject.Api.Functions.MovieCQRS.Command.AddMovie;
+using MovieCatalogProject.Api.Functions.MovieCQRS.Query.GetLastMovie;
 using MovieCatalogProject.Domain.Entities;
 
 namespace MovieCatalogProject.Api
