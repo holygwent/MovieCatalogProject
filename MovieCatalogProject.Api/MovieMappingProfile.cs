@@ -11,7 +11,7 @@ namespace MovieCatalogProject.Api
         {
             CreateMap<AddMovieCommand,Movie>()
                 .ForMember(m=>m.Id,c=>c.AllowNull());
-            CreateMap<Movie, RetriveLastMovieQueryResponse>();
+            CreateMap<Movie, GetLastMovieQueryResponse>();
         }
     }
 }
