@@ -7,7 +7,7 @@ using MovieCatalogProject.Api.Functions.MovieCQRS.Query;
 
 namespace MovieCatalogProject.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class MovieController : ControllerBase
     {
@@ -17,23 +17,35 @@ namespace MovieCatalogProject.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> RetriveLastMovie()
+        [HttpGet("movie")]
+        public async Task<ActionResult> GetLastMovie()
         {
-            var result = await _mediator.Send(new RetriveLastMovieQuery());
+            var result = await _mediator.Send(new GetLastMovieQuery());
             return StatusCode(200, result);
-
         }
-        // POST api/<MovieController>
-        [HttpPost]
+
+        [HttpGet("movies/year/{year}")]
+        public async Task<ActionResult> GetMoviesByYear([FromRoute] int year)
+        {
+            
+            var result = await _mediator.Send(new GetMoviesByYearQuery(year));
+            return StatusCode(200, result);
+        }
+
+        [HttpGet("movies/genre/{genre}")]
+        public async Task<ActionResult> GetMoviesByGenre([FromRoute] string genre)
+        {
+            var result = await _mediator.Send(new GetMoviesByGenreQuery(genre));
+            return StatusCode(200, result);
+        }
+        [HttpPost("movie")]
         public async Task<ActionResult> AddMovie([FromBody] AddMovieCommand dto)
         {
             await _mediator.Send(dto);
             return StatusCode(201);
         }
 
-        // DELETE api/<MovieController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("movie/{id}")]
         public async Task<ActionResult> DeleteMovie(Guid id)
         {
             await _mediator.Send(new DeleteMovieCommand(id));
