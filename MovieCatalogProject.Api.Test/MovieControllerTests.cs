@@ -1,5 +1,4 @@
-﻿using FakeItEasy;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +28,7 @@ namespace MovieCatalogProject.Api.Test
        
         }
         [Fact]
-        public async Task GetLastMovie_WhenCorrect_CheckingResponse()
+        public async Task GetLastMovie_WhenCorrect_ResturnStatusCode200AndValueOfTypeGetLastMovieQueryResponse()
         {
             //arrange
             string[] tab = { "horror","comedy" };
@@ -46,6 +45,21 @@ namespace MovieCatalogProject.Api.Test
             okActionResult.Value.Should().NotBeNull();
             okActionResult.Value.Should().BeOfType(typeof(GetLastMovieQueryResponse));
             Assert.Equal(getLastMovieQueryResponse, okActionResult.Value);
+            
+        }
+        [Fact]
+        public async Task GetLastMovie_WhenCorrect_ShouldExecuteMediatorSendFunctionOnce()
+        {
+            //arrange
+            string[] tab = { "horror", "comedy" };
+            var getLastMovieQueryResponse = new GetLastMovieQueryResponse(Guid.NewGuid(), "Scary movie", DateTime.Now, tab);
+            _fakeMediator.Setup(m => m.Send(new GetLastMovieQuery(), It.IsAny<CancellationToken>())).ReturnsAsync(getLastMovieQueryResponse);
+            var movieController = new MovieController(_fakeMediator.Object, _fakeValidator.Object);
+            //act
+            var actionResult = await movieController.GetLastMovie();
+            //assert
+            _fakeMediator.Verify(x => x.Send(new GetLastMovieQuery(), It.IsAny<CancellationToken>()), Times.Once);
+
         }
     }
 }
