@@ -10,6 +10,7 @@ using MovieCatalogProject.Api.Functions.MovieCQRS.Query.GetLastMovie;
 using MovieCatalogProject.Api.Functions.MovieCQRS.Query.GetMoviesByGenre;
 using MovieCatalogProject.Api.Functions.MovieCQRS.Query.GetMoviesByYear;
 using MovieCatalogProject.Domain.Entities;
+using Xunit;
 
 
 namespace MovieCatalogProject.Api.Test
@@ -37,13 +38,13 @@ namespace MovieCatalogProject.Api.Test
             _fakeValidator.Setup(x => x.ValidateAsync(dto, It.IsAny<CancellationToken>()))
                              .ReturnsAsync(new ValidationResult());
             //act
-            var actionResult = (StatusCodeResult)await movieController.AddMovie(dto);
+            var statusResult = (StatusCodeResult)await movieController.AddMovie(dto);
             //assert
-            actionResult.StatusCode.Should().Be(201);
+            statusResult.StatusCode.Should().Be(201);
 
         }
         [Fact]
-        public async Task AddMovie_WhenIncorrectData_ShouldReturnStatusCode400()
+        public async Task AddMovie_WhenIncorrectData_ShouldReturnStatusCode400AndHaveErrors()
         {
             //arrange
             string[] tab = { "horror", "comedy" };
@@ -58,6 +59,7 @@ namespace MovieCatalogProject.Api.Test
             var actionResult = (ObjectResult)await movieController.AddMovie(dto);
             //assert
             actionResult.StatusCode.Should().Be(400);
+            Assert.Equal(validationFailures, actionResult.Value);
 
         }
         [Fact]
