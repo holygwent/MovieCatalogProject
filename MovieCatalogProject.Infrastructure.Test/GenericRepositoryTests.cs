@@ -107,10 +107,5 @@ namespace MovieCatalogProject.Infrastructure.Test
             _context.Movies.Should().NotContain(movie1);
         }
 
-
-
-
-
-
     }
 }
