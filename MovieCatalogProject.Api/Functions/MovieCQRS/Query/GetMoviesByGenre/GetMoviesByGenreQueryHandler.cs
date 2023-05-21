@@ -15,7 +15,7 @@ namespace MovieCatalogProject.Api.Functions.MovieCQRS.Query.GetMoviesByGenre
         public async Task<GetMoviesByGenreQueryResponse> Handle(GetMoviesByGenreQuery request, CancellationToken cancellationToken)
         {
             var movies =await _movieRepository.GetAllAsync();
-            var result = movies.Where(x => x.Genres.Contains(request.genre)).ToList();
+            var result = movies.Where(x => x.Genres.Select(x=>x.ToLower()).Contains(request.genre.ToLower())).ToList();
             return new GetMoviesByGenreQueryResponse(result);
         }
     }

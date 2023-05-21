@@ -28,22 +28,22 @@ namespace MovieCatalogProject.Api.Controllers
         public async Task<ActionResult> GetLastMovie()
         {
             var result = await _mediator.Send(new GetLastMovieQuery());
-            return StatusCode(200, result);
+            return Ok(result);
         }
 
         [HttpGet("movie/year/{year}")]
         public async Task<ActionResult> GetMoviesByYear([FromRoute] int year)
         {
-            
+
             var result = await _mediator.Send(new GetMoviesByYearQuery(year));
-            return StatusCode(200, result);
+            return Ok(result);
         }
 
         [HttpGet("movie/genre/{genre}")]
         public async Task<ActionResult> GetMoviesByGenre([FromRoute] string genre)
         {
             var result = await _mediator.Send(new GetMoviesByGenreQuery(genre));
-            return StatusCode(200, result);
+            return Ok(result);
         }
         [HttpPost("movie")]
         public async Task<ActionResult> AddMovie([FromBody] AddMovieCommand dto)
@@ -62,7 +62,7 @@ namespace MovieCatalogProject.Api.Controllers
         {
             await _mediator.Send(new DeleteMovieCommand(id));
 
-            return StatusCode(200);
+            return Ok();
         }
     }
 }
