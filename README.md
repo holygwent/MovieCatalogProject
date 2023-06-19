@@ -1,2 +1,7 @@
 # MovieCatalogProject
-DDD pattern, reporitory pattern, mediator and cqrs pattern
+REST API 
+DDD pattern
+reporitory pattern
+MediatR and cqrs pattern
+fluent validation
+
